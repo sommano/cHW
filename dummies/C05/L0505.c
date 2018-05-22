@@ -11,3 +11,5 @@ int main()
     printf("No, the value is %d\n",VALUE);
     return(0);
 }
+
+-mno-avx2 -mfpmath=both -mno-sse4.2 --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0"
