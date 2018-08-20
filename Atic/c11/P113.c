@@ -72,3 +72,36 @@ int search(WordInfo table[], char key[]) {
     if (strcmp(table[loc].word, Empty) == 0) return -loc;
     return loc;
 } // end search
+
+int convertToNumber(char key[]) {
+    int h = 0, keyNum = 0, w = 3;
+    while (key[h] != '\0') {
+        keyNum += w * key[h++];
+        w = w + 2;
+    }
+    return keyNum;
+} //end convertToNumber
+
+int addToTable(WordInfo table[], char key[], int loc, int head) {
+//stores key in table[loc] and links it in alphabetical order
+    strcpy(table[loc].word, key);
+    table[loc].freq = 1;
+    int curr = head;
+    int prev = -1;
+    while (curr != -1 && (strcmp(key, table[curr].word) > 0)) {
+        prev = curr;
+        curr = table[curr].next;
+    }
+    table[loc].next = curr;
+    if (prev == -1) return loc; //new first item
+    table[prev].next = loc;
+    return head; //first item did not change
+} //end addToTable
+
+void printResults(FILE *out, WordInfo table[], int head) {
+    fprintf(out, "\nWords    Frequency\n\n");
+    while (head != -1) {
+        fprintf(out, "%-15s %2d\n", table[head].word, table[head].freq);
+        head = table[head].next;
+    }
+} //end printResults
